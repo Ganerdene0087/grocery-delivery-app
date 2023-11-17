@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import './Pages/LoginPage/LoginPage';
+import LoginPage from './Pages/LoginPage/LoginPage';
+import UserApp from './Pages/UserApp/UserApp';
+import DriverApp from './Pages/DriverApp/DriverApp';
+import { LoginContext } from './Contexts/LoginContext';
+import {useState} from 'react';
+
+const GOOGLE_MAP_API_KEY = '<YOUR_GOOGLE_MAP_API_KEY>';
 
 function App() {
+  const [userName, setUserName] = useState('');
+  const [selectedTypeOption, setSelectedTypeOption] = useState('shop');
+  const [loggedIn, setLoggedIn] = useState(false);
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <LoginContext.Provider value={{userName, setUserName, selectedTypeOption, setSelectedTypeOption, loggedIn, setLoggedIn }}>
+        {loggedIn === false ? <LoginPage/> :
+        selectedTypeOption === 'shop' ? <UserApp/> :  
+        <DriverApp />}
+      </LoginContext.Provider>
     </div>
   );
 }
